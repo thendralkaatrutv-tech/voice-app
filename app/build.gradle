@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'in.orghub.voice'
+    namespace 'com.orghub.voice'
     compileSdk 34
 
     defaultConfig {
-        applicationId "in.orghub.voice"
+        applicationId "com.orghub.voice"
         minSdk 24
         targetSdk 34
         versionCode 1
