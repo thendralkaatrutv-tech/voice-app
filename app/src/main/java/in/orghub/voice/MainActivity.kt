@@ -1,9 +1,8 @@
-package in.orghub.voice
+package com.orghub.voice
 
 import android.Manifest
 import android.content.pm.PackageManager
 import android.media.AudioManager
-import android.os.Build
 import android.os.Bundle
 import android.webkit.JavascriptInterface
 import android.webkit.PermissionRequest
@@ -21,7 +20,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var webView: WebView
     private lateinit var audioManager: AudioManager
 
-    // CHANGE THIS LINE to switch which page the app opens:
+    // CHANGE THIS LINE to switch which page opens:
     // Employee = /employee.html   Admin = /admin.html   Customer = /
     private val APP_URL = "https://voice.orghub.in/employee.html"
 
@@ -30,7 +29,6 @@ class MainActivity : ComponentActivity() {
 
         audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
 
-        // Ask for microphone permission up front
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
             != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), 1)
@@ -46,7 +44,6 @@ class MainActivity : ComponentActivity() {
         s.cacheMode = WebSettings.LOAD_DEFAULT
         s.setSupportZoom(false)
 
-        // Native audio bridge — lets the web page switch earpiece/speaker/bluetooth
         webView.addJavascriptInterface(NativeAudio(), "NativeAudio")
 
         webView.webViewClient = object : WebViewClient() {
@@ -55,7 +52,6 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        // Auto-grant mic to the WebRTC page
         webView.webChromeClient = object : WebChromeClient() {
             override fun onPermissionRequest(request: PermissionRequest?) {
                 request?.grant(request.resources)
